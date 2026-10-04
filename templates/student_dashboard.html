@@ -1,0 +1,655 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Portal</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <!-- Main CSS -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+    <style>
+
+        /* =========================
+           PAGE
+        ========================= */
+
+        body {
+            margin: 0;
+            background: #f4f7fb;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .student-sidebar {
+            width: 250px;
+            height: 100vh;
+
+            position: fixed;
+            left: 0;
+            top: 0;
+
+            background: linear-gradient(
+                180deg,
+                #0d6efd 0%,
+                #084298 100%
+            );
+
+            color: white;
+
+            padding: 30px 22px;
+
+            box-shadow: 3px 0 15px rgba(0, 0, 0, 0.12);
+        }
+
+
+        /* Logo */
+
+        .sidebar-logo {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .sidebar-logo i {
+            font-size: 48px;
+        }
+
+        .sidebar-logo h4 {
+            margin-top: 15px;
+            font-size: 25px;
+            font-weight: 700;
+        }
+
+        .sidebar-logo p {
+            margin-top: 8px;
+            font-size: 14px;
+            opacity: 0.85;
+        }
+
+
+        /* =========================
+           LOGOUT
+        ========================= */
+
+        .logout {
+            position: absolute;
+
+            bottom: 25px;
+            left: 22px;
+            right: 22px;
+        }
+
+        .logout a {
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 10px;
+
+            background: rgba(255, 255, 255, 0.15);
+
+            color: white;
+
+            text-decoration: none;
+
+            padding: 14px;
+
+            border-radius: 10px;
+
+            font-size: 16px;
+            font-weight: 600;
+
+            transition: 0.3s;
+        }
+
+        .logout a:hover {
+            background: rgba(255, 255, 255, 0.25);
+
+            transform: translateY(-2px);
+        }
+
+
+        /* =========================
+           MAIN AREA
+        ========================= */
+
+        .student-main {
+            margin-left: 250px;
+
+            min-height: 100vh;
+        }
+
+
+        /* =========================
+           TOP HEADER
+        ========================= */
+
+        .top-header {
+            height: 75px;
+
+            background: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 40px;
+
+            border-bottom: 1px solid #e5e7eb;
+
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .top-header h5 {
+            margin: 0;
+
+            font-weight: 700;
+
+            color: #1f2937;
+        }
+
+
+        /* Student profile */
+
+        .student-profile {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+        .profile-icon {
+            width: 42px;
+            height: 42px;
+
+            border-radius: 50%;
+
+            background: #e7f0ff;
+
+            color: #0d6efd;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 21px;
+        }
+
+
+        /* =========================
+           CONTENT
+        ========================= */
+
+        .content-area {
+            padding: 45px 55px;
+        }
+
+
+        .welcome-title {
+            font-size: 38px;
+
+            font-weight: 700;
+
+            color: #172033;
+
+            margin-bottom: 8px;
+        }
+
+        .welcome-subtitle {
+            font-size: 18px;
+
+            color: #6b7280;
+        }
+
+
+        /* =========================
+           ACADEMIC PORTAL CARD
+        ========================= */
+
+        .portal-card {
+            max-width: 875px;
+
+            margin: 70px auto 0;
+
+            background: white;
+
+            border-radius: 20px;
+
+            padding: 62px 45px;
+
+            text-align: center;
+
+            border: 1px solid #e7ebf2;
+
+            box-shadow:
+                0 12px 35px rgba(0, 0, 0, 0.08);
+        }
+
+
+        /* Portal Icon */
+
+        .portal-icon {
+            width: 115px;
+            height: 115px;
+
+            margin: 0 auto 25px;
+
+            border-radius: 50%;
+
+            background: linear-gradient(
+                135deg,
+                #1769ff,
+                #5424f5
+            );
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 52px;
+
+            box-shadow:
+                0 12px 25px rgba(55, 80, 240, 0.25);
+        }
+
+
+        .portal-card h2 {
+            color: #172033;
+
+            font-size: 38px;
+
+            font-weight: 700;
+
+            margin-bottom: 15px;
+        }
+
+
+        .portal-card p {
+            color: #64748b;
+
+            font-size: 18px;
+
+            margin-bottom: 35px;
+        }
+
+
+        /* =========================
+           RESULT BUTTON
+        ========================= */
+
+        .result-btn {
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 10px;
+
+            padding: 15px 34px;
+
+            border-radius: 10px;
+
+            background: linear-gradient(
+                135deg,
+                #1769ff,
+                #6422f5
+            );
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 17px;
+
+            font-weight: 600;
+
+            box-shadow:
+                0 8px 20px rgba(40, 85, 240, 0.25);
+
+            transition: all 0.3s ease;
+        }
+
+
+        .result-btn:hover {
+            color: white;
+
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 12px 25px rgba(40, 85, 240, 0.35);
+        }
+
+
+        .portal-note {
+            margin-top: 30px;
+
+            color: #9ca3af;
+
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 768px) {
+
+            .student-sidebar {
+                width: 100%;
+
+                height: auto;
+
+                position: relative;
+
+                padding: 20px;
+            }
+
+            .sidebar-logo {
+                margin: 0;
+            }
+
+            .sidebar-logo i {
+                font-size: 35px;
+            }
+
+            .sidebar-logo h4 {
+                font-size: 20px;
+            }
+
+            .sidebar-logo p {
+                font-size: 13px;
+            }
+
+            .student-main {
+                margin-left: 0;
+            }
+
+            .logout {
+                position: static;
+
+                margin-top: 20px;
+            }
+
+            .top-header {
+                padding: 0 20px;
+            }
+
+            .content-area {
+                padding: 30px 18px;
+            }
+
+            .welcome-title {
+                font-size: 28px;
+            }
+
+            .welcome-subtitle {
+                font-size: 15px;
+            }
+
+            .portal-card {
+                margin-top: 40px;
+
+                padding: 40px 20px;
+            }
+
+            .portal-icon {
+                width: 90px;
+                height: 90px;
+
+                font-size: 40px;
+            }
+
+            .portal-card h2 {
+                font-size: 27px;
+            }
+
+            .portal-card p {
+                font-size: 15px;
+            }
+
+            .result-btn {
+                padding: 13px 24px;
+
+                font-size: 15px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ==================================
+         STUDENT SIDEBAR
+    =================================== -->
+
+    <aside class="student-sidebar">
+
+
+        <!-- Logo -->
+
+        <div class="sidebar-logo">
+
+            <i class="bi bi-mortarboard-fill"></i>
+
+            <h4>
+                Student Portal
+            </h4>
+
+            <p>
+                Result Management System
+            </p>
+
+        </div>
+
+
+        <!-- NO DASHBOARD -->
+        <!-- NO MY RESULT -->
+
+
+        <!-- Logout -->
+
+        <div class="logout">
+
+            <a href="/logout">
+
+                <i class="bi bi-box-arrow-right"></i>
+
+                Logout
+
+            </a>
+
+        </div>
+
+
+    </aside>
+
+
+
+    <!-- ==================================
+         MAIN CONTENT
+    =================================== -->
+
+    <main class="student-main">
+
+
+        <!-- Top Header -->
+
+        <header class="top-header">
+
+
+            <h5>
+                Student Portal
+            </h5>
+
+
+            <div class="student-profile">
+
+                <div class="profile-icon">
+
+                    <i class="bi bi-person-fill"></i>
+
+                </div>
+
+
+                <span class="fw-semibold">
+
+                    {{ name }}
+
+                </span>
+
+            </div>
+
+
+        </header>
+
+
+
+        <!-- ==================================
+             PAGE CONTENT
+        =================================== -->
+
+        <section class="content-area">
+
+
+            <!-- Welcome -->
+
+            <div>
+
+                <h1 class="welcome-title">
+
+                    Hello, {{ name }} 👋
+
+                </h1>
+
+
+                <p class="welcome-subtitle">
+
+                    Welcome to your student academic portal.
+
+                </p>
+
+            </div>
+
+
+
+            <!-- ==================================
+                 ACADEMIC PORTAL
+            =================================== -->
+
+            <div class="portal-card">
+
+
+                <!-- Icon -->
+
+                <div class="portal-icon">
+
+                    <i class="bi bi-mortarboard-fill"></i>
+
+                </div>
+
+
+
+                <!-- Heading -->
+
+                <h2>
+
+                    Your Academic Portal
+
+                </h2>
+
+
+
+                <!-- Description -->
+
+                <p>
+
+                    View your academic result and download
+                    your official result PDF.
+
+                </p>
+
+
+
+                <!-- View Result -->
+
+                <a
+                    href="/student/result"
+                    class="result-btn"
+                >
+
+                    <i class="bi bi-file-earmark-text-fill"></i>
+
+                    View My Result
+
+                </a>
+
+
+
+                <!-- Note -->
+
+                <div class="portal-note">
+
+                    Your result information is securely
+                    available through this portal.
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- Bootstrap JS -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+    </script>
+
+
+</body>
+
+</html>
